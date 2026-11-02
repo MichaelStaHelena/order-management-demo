@@ -1,6 +1,6 @@
 # AdminOrderController
 
-> God node · 9 connections · `src/main/java/com/acme/graphifyorders/AdminOrderController.java`
+> God node · 9 connections · `src/main/java/com/orders/AdminOrderController.java`
 
 **Community:** [OrderExportService](OrderExportService.md)
 

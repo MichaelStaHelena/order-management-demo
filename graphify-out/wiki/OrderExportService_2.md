@@ -1,6 +1,6 @@
 # OrderExportService
 
-> God node · 12 connections · `src/main/java/com/acme/graphifyorders/OrderExportService.java`
+> God node · 12 connections · `src/main/java/com/orders/OrderExportService.java`
 
 **Community:** [OrderExportService](OrderExportService.md)
 

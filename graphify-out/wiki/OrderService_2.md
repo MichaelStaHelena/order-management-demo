@@ -1,6 +1,6 @@
 # OrderService
 
-> God node · 18 connections · `src/main/java/com/acme/graphifyorders/OrderService.java`
+> God node · 19 connections · `src/main/java/com/orders/OrderService.java`
 
 **Community:** [OrderService](OrderService.md)
 
@@ -12,6 +12,7 @@
 ### method
 - .findEntity() `EXTRACTED`
 - .update() `EXTRACTED`
+- .cancel() `EXTRACTED`
 - .create() `EXTRACTED`
 - .get() `EXTRACTED`
 - .list() `EXTRACTED`

@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>order-management-demo — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 139 nodes, 238 edges, 12 communities. Commit: 7140943</p>
+<p class="subtitle">Generated from graphify knowledge graph: 150 nodes, 264 edges, 12 communities. Commit: d566ffe</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -69,7 +69,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
     <a href="#mvnw">mvnw</a>
     <a href="#verify-sh">verify.sh</a>
     <a href="#demo-requests-sh">demo-requests.sh</a>
-    <a href="#com-acme-order-management-demo">com.acme:order-management-demo</a>
+    <a href="#com-orders-order-management-demo">com.orders:order-management-demo</a>
 </div>
 
 <!-- ====== Architecture Overview ====== -->
@@ -79,9 +79,9 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    EXTRACT_PIPELINE_5F350230("Extraction Pipeline<br/><small>122 nodes</small>")
+    EXTRACT_PIPELINE_5F350230("Extraction Pipeline<br/><small>132 nodes</small>")
     class EXTRACT_PIPELINE_5F350230 module;
-    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>5 nodes</small>")
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>6 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
     MVNW_5D837C4E("mvnw<br/><small>6 nodes</small>")
     class MVNW_5D837C4E module;
@@ -89,13 +89,13 @@ flowchart LR
     class VERIFY_SH_5D90FFCF module;
     DEMO_REQUESTS_SH_8C0E05A5("demo-requests.sh<br/><small>2 nodes</small>")
     class DEMO_REQUESTS_SH_8C0E05A5 module;
-    COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4("com.acme:order-management-demo<br/><small>1 nodes</small>")
-    class COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4 module;
+    COM_ORDERS_ORDER_MANAGEMENT_DEMO_AA2D0D89("com.orders:order-management-demo<br/><small>1 nodes</small>")
+    class COM_ORDERS_ORDER_MANAGEMENT_DEMO_AA2D0D89 module;
     EXTRACT_PIPELINE_5F350230 -.-> CLI_SKILLS_9964CBB8
     CLI_SKILLS_9964CBB8 -.-> MVNW_5D837C4E
     MVNW_5D837C4E -.-> VERIFY_SH_5D90FFCF
     VERIFY_SH_5D90FFCF -.-> DEMO_REQUESTS_SH_8C0E05A5
-    DEMO_REQUESTS_SH_8C0E05A5 -.-> COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4
+    DEMO_REQUESTS_SH_8C0E05A5 -.-> COM_ORDERS_ORDER_MANAGEMENT_DEMO_AA2D0D89
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -112,36 +112,36 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Extraction Pipeline</td><td>122</td><td><code>1, 0, 2, 3, 4, 5, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>5</td><td><code>11</code></td></tr><tr><td>mvnw</td><td>6</td><td><code>7</code></td></tr><tr><td>verify.sh</td><td>3</td><td><code>8</code></td></tr><tr><td>demo-requests.sh</td><td>2</td><td><code>9</code></td></tr><tr><td>com.acme:order-management-demo</td><td>1</td><td><code>10</code></td></tr>
+      <tr><td>Extraction Pipeline</td><td>132</td><td><code>1, 0, 2, 3, 4, 5, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>6</td><td><code>11</code></td></tr><tr><td>mvnw</td><td>6</td><td><code>7</code></td></tr><tr><td>verify.sh</td><td>3</td><td><code>8</code></td></tr><tr><td>demo-requests.sh</td><td>2</td><td><code>9</code></td></tr><tr><td>com.orders:order-management-demo</td><td>1</td><td><code>10</code></td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Core Flow</h4>
-    <div class="arrow-chain">Extraction Pipeline -&gt; CLI &amp; Skill Installers -&gt; mvnw -&gt; verify.sh -&gt; demo-requests.sh -&gt; com.acme:order-management-demo</div>
+    <div class="arrow-chain">Extraction Pipeline -&gt; CLI &amp; Skill Installers -&gt; mvnw -&gt; verify.sh -&gt; demo-requests.sh -&gt; com.orders:order-management-demo</div>
   </div>
 </div>
 <div class="grid">
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>139 nodes · 238 edges · 12 communities (9 shown, 3 thin omitted)</li>
-      <li>Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 27 edges (avg confidence: 0.8)</li>
+      <li>150 nodes · 264 edges · 12 communities (9 shown, 3 thin omitted)</li>
+      <li>Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 31 edges (avg confidence: 0.8)</li>
       <li>Token cost: 0 input · 0 output</li>
-      <li>1. `Order` - 18 edges</li>
-      <li>2. `OrderService` - 18 edges</li>
-      <li>3. `OrderExportService` - 12 edges</li>
+      <li>1. `Order` - 19 edges</li>
+      <li>2. `OrderService` - 19 edges</li>
+      <li>3. `OrderStatus` - 14 edges</li>
     </ul>
   </div>
 </div>
 <hr>
 <!-- ====== 2. Extraction Pipeline ====== -->
 <h2 id="extract-pipeline">2. Extraction Pipeline</h2>
-<p>Extraction Pipeline groups implementation around com, orders, orderjava, orderservicejava, mostly in com/orders/Order.java, com/orders/OrderService.java, com/orders/OrderController.java. This section covers 122 nodes and 222 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Extraction Pipeline groups implementation around com, orders, orderjava, orderservicejava, mostly in com/orders/Order.java, com/orders/OrderService.java, com/orders/OrderController.java. This section covers 132 nodes and 247 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Extraction Pipeline (122 nodes, 222 edges)
+    %% Section: Extraction Pipeline (132 nodes, 247 edges)
     subgraph extract_pipeline_com_orders_OrderExportService_j_548bdc2a["com/orders/OrderExportService.java"]
         src_main_java_com_orders_orderexportservice_orde_9c6952f5("OrderExportService<br/><small>com/orders/OrderExportService.java</small>")
         src_main_java_com_orders_orderexportservice_orde_64c2104d("OrderExportService()<br/><small>com/orders/OrderExportService.java</small>")
@@ -161,9 +161,9 @@ flowchart LR
         src_main_java_com_orders_orderexportjob_orderexp_b1937e9e("OrderExportJob()<br/><small>com/orders/OrderExportJob.java</small>")
         src_main_java_com_orders_orderexportjob_orderexp_79f17a78("exportOrders()<br/><small>com/orders/OrderExportJob.java</small>")
     end
+    src_main_java_com_orders_globalexceptionhandler_7d2e7951("GlobalExceptionHandler<br/><small>com/orders/GlobalExceptionHandler.java</small>")
     src_main_java_com_orders_order_order_796279ac("Order<br/><small>com/orders/Order.java</small>")
     src_main_java_com_orders_ordercontroller_orderco_e91adcab("OrderController<br/><small>com/orders/OrderController.java</small>")
-    src_main_java_com_orders_ordermanagementapplicat_c7a00d64("OrderManagementApplication.java")
     src_main_java_com_orders_ordermapper_ordermapper_47e849a8("OrderMapper<br/><small>com/orders/OrderMapper.java</small>")
     src_main_java_com_orders_orderservice_orderservi_058e147e("OrderService<br/><small>com/orders/OrderService.java</small>")
     src_main_java_com_orders_adminordercontroller_ad_7cd5c807 -->|method| src_main_java_com_orders_adminordercontroller_ad_a4fdf967
@@ -177,7 +177,7 @@ flowchart LR
     src_main_java_com_orders_orderexportservice_orde_9c6952f5 -->|method| src_main_java_com_orders_orderexportservice_orde_88b73e03
     src_main_java_com_orders_orderexportservice_orde_b824e4e2 -->|calls| src_main_java_com_orders_orderexportservice_orde_88b73e03
     src_main_java_com_orders_orderexportservice_orde_36f199b3 -->|calls| src_main_java_com_orders_orderexportservice_orde_b824e4e2
-    %% Omitted for readability: 104 nodes, 0 edges
+    %% Omitted for readability: 114 nodes, 0 edges
     class src_main_java_com_orders_orderexportservice_orde_9c6952f5 klass;
     class src_main_java_com_orders_orderexportservice_orde_64c2104d function;
     class src_main_java_com_orders_orderexportservice_orde_b824e4e2 function;
@@ -191,9 +191,9 @@ flowchart LR
     class src_main_java_com_orders_orderexportjob_orderexp_b41a958c klass;
     class src_main_java_com_orders_orderexportjob_orderexp_b1937e9e function;
     class src_main_java_com_orders_orderexportjob_orderexp_79f17a78 function;
+    class src_main_java_com_orders_globalexceptionhandler_7d2e7951 klass;
     class src_main_java_com_orders_order_order_796279ac klass;
     class src_main_java_com_orders_ordercontroller_orderco_e91adcab klass;
-    class src_main_java_com_orders_ordermanagementapplicat_c7a00d64 klass;
     class src_main_java_com_orders_ordermapper_ordermapper_47e849a8 klass;
     class src_main_java_com_orders_orderservice_orderservi_058e147e klass;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
@@ -230,7 +230,7 @@ flowchart LR
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br>+3 more</td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br>+4 more</td>
   <td>OrderController node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
@@ -246,7 +246,7 @@ flowchart LR
   <td><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
-  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+4 more</td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+5 more</td>
   <td>OrderService node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
@@ -259,6 +259,22 @@ flowchart LR
 </tr>
 <tr>
   <td>6</td>
+  <td><code>.cancel()</code><br><small style="color:var(--muted)">com/orders/Order.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>Order</code><br><small style="color:var(--muted)">com/orders/Order.java</small></td>
+  <td>No direct outbound edge</td>
+  <td>.cancel() node in com/orders/Order.java.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>.cancel()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.cancel() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>8</td>
   <td><code>.create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -266,7 +282,7 @@ flowchart LR
   <td>.create() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>9</td>
   <td><code>.delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -274,7 +290,7 @@ flowchart LR
   <td>.delete() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>8</td>
+  <td>10</td>
   <td><code>.get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -282,7 +298,7 @@ flowchart LR
   <td>.get() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>11</td>
   <td><code>.list()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -290,7 +306,7 @@ flowchart LR
   <td>.list() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>12</td>
   <td><code>.OrderController()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -298,7 +314,7 @@ flowchart LR
   <td>.OrderController() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>13</td>
   <td><code>.update()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -306,7 +322,15 @@ flowchart LR
   <td>.update() node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>14</td>
+  <td><code>.cancel()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/Order.java</small><br><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>getStatus()</code><br><small style="color:var(--muted)">com/orders/Order.java</small><br>+1 more</td>
+  <td>.cancel() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>15</td>
   <td><code>.create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
@@ -314,7 +338,7 @@ flowchart LR
   <td>.create() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>16</td>
   <td><code>.delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
@@ -322,15 +346,15 @@ flowchart LR
   <td>.delete() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>17</td>
   <td><code>.findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
-  <td><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+2 more</td>
+  <td><code>cancel()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+3 more</td>
   <td>No direct outbound edge</td>
   <td>.findEntity() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>18</td>
   <td><code>.get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
@@ -338,7 +362,7 @@ flowchart LR
   <td>.get() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>19</td>
   <td><code>.list()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>exportCsv()</code><br><small style="color:var(--muted)">com/orders/OrderExportService.java</small><br><code>list()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
@@ -346,7 +370,7 @@ flowchart LR
   <td>.list() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>20</td>
   <td><code>.update()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>update()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -354,7 +378,7 @@ flowchart LR
   <td>.update() node in com/orders/OrderService.java.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>21</td>
   <td><code>DeleteMapping</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -362,7 +386,7 @@ flowchart LR
   <td>DeleteMapping node in project.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>22</td>
   <td><code>org.springframework.http.ResponseEntity</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderController.java</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
@@ -370,7 +394,7 @@ flowchart LR
   <td>org.springframework.http.ResponseEntity node in project.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>23</td>
   <td><code>org.springframework.transaction.annotation.Transactional</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>OrderService.java</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
@@ -378,7 +402,7 @@ flowchart LR
   <td>org.springframework.transaction.annotation.Transactional node in project.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>24</td>
   <td><code>PostMapping</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -386,7 +410,7 @@ flowchart LR
   <td>PostMapping node in project.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>25</td>
   <td><code>PutMapping</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -394,7 +418,7 @@ flowchart LR
   <td>PutMapping node in project.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>26</td>
   <td><code>CreateOrderRequest.java</code><br><small style="color:var(--muted)">com/orders/CreateOrderRequest.java</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -402,7 +426,7 @@ flowchart LR
   <td>CreateOrderRequest.java node in com/orders/CreateOrderRequest.java.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>27</td>
   <td><code>OrderController.java</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -410,7 +434,7 @@ flowchart LR
   <td>OrderController.java node in com/orders/OrderController.java.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>28</td>
   <td><code>GetMapping</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -418,7 +442,7 @@ flowchart LR
   <td>GetMapping node in project.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>29</td>
   <td><code>RequestMapping</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -426,36 +450,12 @@ flowchart LR
   <td>RequestMapping node in project.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>30</td>
   <td><code>RestController</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>RestController node in project.</td>
-</tr>
-<tr>
-  <td>28</td>
-  <td><code>OrderResponse.java</code><br><small style="color:var(--muted)">com/orders/OrderResponse.java</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>OrderResponse.java node in com/orders/OrderResponse.java.</td>
-</tr>
-<tr>
-  <td>29</td>
-  <td><code>OrderService.java</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>org.springframework.stereotype.Service</code><br><code>org.springframework.transaction.annotat...</code></td>
-  <td>OrderService.java node in com/orders/OrderService.java.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>UpdateOrderRequest.java</code><br><small style="color:var(--muted)">com/orders/UpdateOrderRequest.java</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>UpdateOrderRequest.java node in com/orders/UpdateOrderRequest.java.</td>
 </tr>
 </table>
 
@@ -464,45 +464,48 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>com/orders/Order.java</code></td><td>10 nodes</td></tr>
-<tr><td><code>com/orders/OrderService.java</code></td><td>9 nodes</td></tr>
-<tr><td><code>com/orders/OrderController.java</code></td><td>8 nodes</td></tr>
+      <tr><td><code>com/orders/Order.java</code></td><td>11 nodes</td></tr>
+<tr><td><code>com/orders/OrderService.java</code></td><td>10 nodes</td></tr>
+<tr><td><code>com/orders/OrderController.java</code></td><td>9 nodes</td></tr>
+<tr><td><code>com/orders/GlobalExceptionHandler.java</code></td><td>6 nodes</td></tr>
 <tr><td><code>com/orders/OrderExportService.java</code></td><td>6 nodes</td></tr>
+<tr><td><code>com/orders/OrderStatus.java</code></td><td>6 nodes</td></tr>
+<tr><td><code>com/orders/OrderApiIntegrationTest.java</code></td><td>6 nodes</td></tr>
 <tr><td><code>com/orders/AdminOrderController.java</code></td><td>5 nodes</td></tr>
-<tr><td><code>com/orders/GlobalExceptionHandler.java</code></td><td>5 nodes</td></tr>
-<tr><td><code>com/orders/OrderStatus.java</code></td><td>5 nodes</td></tr>
-<tr><td><code>com/orders/OrderExportJob.java</code></td><td>4 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: references x97, method x42, imports x21, contains x20. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: references x107, method x49, contains x21, imports x21. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 3. CLI & Skill Installers ====== -->
 <h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
-<p>CLI &amp; Skill Installers groups implementation around readmemd, graphify, explore, graph, mostly in README.md. This section covers 5 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>CLI &amp; Skill Installers groups implementation around readmemd, graphify, workflow, explore, mostly in README.md. This section covers 6 nodes and 5 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: CLI &amp; Skill Installers (5 nodes, 4 edges)
+    %% Section: CLI &amp; Skill Installers (6 nodes, 5 edges)
     readme_order_management_demo_graphify_map_bd77aa44("Order Management Demo — Graphify map<br/><small>README.md</small>")
     readme_f78a71af("README.md")
-    readme_graphify_command_reference_1078a1ac("Graphify command reference<br/><small>README.md</small>")
-    readme_explore_the_graph_b947f87a("Explore the graph<br/><small>README.md</small>")
     readme_typical_codex_workflow_88781d8b("Typical Codex workflow<br/><small>README.md</small>")
+    readme_recommended_graphify_v8_workflow_3392c360("Recommended Graphify v8 workflow<br/><small>README.md</small>")
+    readme_explore_the_graph_b947f87a("Explore the graph<br/><small>README.md</small>")
+    readme_graphify_command_reference_1078a1ac("Graphify command reference<br/><small>README.md</small>")
     readme_f78a71af -->|contains| readme_order_management_demo_graphify_map_bd77aa44
-    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_graphify_command_reference_1078a1ac
-    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_explore_the_graph_b947f87a
     readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_typical_codex_workflow_88781d8b
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_recommended_graphify_v8_workflow_3392c360
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_explore_the_graph_b947f87a
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_graphify_command_reference_1078a1ac
     class readme_order_management_demo_graphify_map_bd77aa44 concept;
     class readme_f78a71af concept;
-    class readme_graphify_command_reference_1078a1ac concept;
-    class readme_explore_the_graph_b947f87a concept;
     class readme_typical_codex_workflow_88781d8b concept;
+    class readme_recommended_graphify_v8_workflow_3392c360 concept;
+    class readme_explore_the_graph_b947f87a concept;
+    class readme_graphify_command_reference_1078a1ac concept;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -558,6 +561,14 @@ flowchart LR
 </tr>
 <tr>
   <td>5</td>
+  <td><code>Recommended Graphify v8 workflow</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Recommended Graphify v8 workflow.</td>
+</tr>
+<tr>
+  <td>6</td>
   <td><code>Typical Codex workflow</code><br><small style="color:var(--muted)">README.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -571,12 +582,12 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>README.md</code></td><td>5 nodes</td></tr>
+      <tr><td><code>README.md</code></td><td>6 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x5. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -836,16 +847,16 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 7. com.acme:order-management-demo ====== -->
-<h2 id="com-acme-order-management-demo">7. com.acme:order-management-demo</h2>
-<p>com.acme:order-management-demo groups implementation around comacmeorder, management, demo, pomxml, mostly in pom.xml. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 7. com.orders:order-management-demo ====== -->
+<h2 id="com-orders-order-management-demo">7. com.orders:order-management-demo</h2>
+<p>com.orders:order-management-demo groups implementation around comordersorder, management, demo, pomxml, mostly in pom.xml. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: com.acme:order-management-demo (1 nodes, 0 edges)
-    pkg_com_acme_order_management_demo_408222f2("com.acme:order-management-demo<br/><small>pom.xml</small>")
-    class pkg_com_acme_order_management_demo_408222f2 module;
+    %% Section: com.orders:order-management-demo (1 nodes, 0 edges)
+    pkg_com_orders_order_management_demo_ef6f7935("com.orders:order-management-demo<br/><small>pom.xml</small>")
+    class pkg_com_orders_order_management_demo_ef6f7935 module;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -869,11 +880,11 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
-  <td><code>com.acme:order-management-demo</code><br><small style="color:var(--muted)">pom.xml</small></td>
+  <td><code>com.orders:order-management-demo</code><br><small style="color:var(--muted)">pom.xml</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>com.acme:order-management-demo node in pom.xml.</td>
+  <td>com.orders:order-management-demo node in pom.xml.</td>
 </tr>
 </table>
 
@@ -898,8 +909,8 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>139</td></tr>
-      <tr><td>Edges</td><td>238</td></tr>
+      <tr><td>Nodes</td><td>150</td></tr>
+      <tr><td>Edges</td><td>264</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
       <tr><td>Communities</td><td>12</td></tr>
       <tr><td>Documented Sections</td><td>6</td></tr>
@@ -908,8 +919,8 @@ flowchart LR
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>211</td></tr>
-      <tr><td>INFERRED</td><td>27</td></tr>
+      <tr><td>EXTRACTED</td><td>233</td></tr>
+      <tr><td>INFERRED</td><td>31</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
   </div>
@@ -917,7 +928,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>order-management-demo — Architecture Documentation</p>
-  <p>Generated: 2026-11-02 16:16 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-02 18:01 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->

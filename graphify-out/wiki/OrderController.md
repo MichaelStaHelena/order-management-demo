@@ -1,6 +1,6 @@
 # OrderController
 
-> God node · 10 connections · `src/main/java/com/acme/graphifyorders/OrderController.java`
+> God node · 11 connections · `src/main/java/com/orders/OrderController.java`
 
 **Community:** [OrderService](OrderService.md)
 
@@ -14,6 +14,7 @@
 - .update() `EXTRACTED`
 - .get() `EXTRACTED`
 - .list() `EXTRACTED`
+- .cancel() `EXTRACTED`
 - .delete() `EXTRACTED`
 - .OrderController() `EXTRACTED`
 

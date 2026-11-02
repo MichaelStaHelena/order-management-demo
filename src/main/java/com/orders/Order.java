@@ -64,4 +64,8 @@ public class Order {
     this.quantity = quantity;
     this.status = status;
   }
+
+  public void cancel() {
+    this.status = OrderStatus.CANCELLED;
+  }
 }

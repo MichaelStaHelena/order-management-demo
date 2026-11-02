@@ -9,6 +9,6 @@
   "7": "mvnw",
   "8": "verify.sh",
   "9": "demo-requests.sh",
-  "10": "com.acme:order-management-demo",
+  "10": "com.orders:order-management-demo",
   "11": "Order Management Demo — Graphify map"
 }

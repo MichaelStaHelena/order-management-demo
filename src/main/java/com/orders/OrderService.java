@@ -53,6 +53,17 @@ public class OrderService {
     return mapper.toResponse(order);
   }
 
+  public OrderResponse cancel(long id) {
+    Order order = findEntity(id);
+    if (order.getStatus() == OrderStatus.SHIPPED) {
+      throw new OrderCancellationNotAllowedException(id, order.getStatus());
+    }
+    if (order.getStatus() != OrderStatus.CANCELLED) {
+      order.cancel();
+    }
+    return mapper.toResponse(order);
+  }
+
   public void delete(long id) {
     repository.delete(findEntity(id));
   }

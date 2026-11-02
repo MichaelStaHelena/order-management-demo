@@ -1,6 +1,6 @@
 # Order
 
-> God node · 18 connections · `src/main/java/com/acme/graphifyorders/Order.java`
+> God node · 19 connections · `src/main/java/com/orders/Order.java`
 
 **Community:** [Order](Order.md)
 
@@ -21,13 +21,14 @@
 - .getCreatedAt() `EXTRACTED`
 - .update() `EXTRACTED`
 - .Order() `EXTRACTED`
+- .cancel() `EXTRACTED`
 
 ### references
 - [OrderStatus](OrderStatus.md) `EXTRACTED`
 - .toResponse() `EXTRACTED`
 - .toAdminSummary() `EXTRACTED`
-- [OrderRepository](OrderRepository.md) `EXTRACTED`
 - .findEntity() `EXTRACTED`
+- [OrderRepository](OrderRepository.md) `EXTRACTED`
 - .findAllByOrderByIdAsc() `EXTRACTED`
 - Entity `EXTRACTED`
 - Table `EXTRACTED`

@@ -2,6 +2,17 @@
 
 This Spring Boot order-management demo includes a generated Graphify knowledge graph. Use it to explore the codebase’s architecture, dependencies, and likely change impact without having to trace every file manually.
 
+## Relationship confidence
+
+Every graph relationship includes a confidence tag. Use it to distinguish direct
+source evidence from relationships that need more scrutiny:
+
+| Tag | Meaning |
+| --- | --- |
+| `EXTRACTED` | Found directly in source, such as an import or function call. Its confidence is always `1.0`. |
+| `INFERRED` | A derived relationship with a `confidence_score`: `0.95` near-certain, `0.85` strong evidence, `0.75` reasonable, `0.65` weak, and `0.55` speculative. |
+| `AMBIGUOUS` | Uncertain relationship flagged in the Graph Report for manual review. |
+
 ## Explore the graph
 
 Start with the generated [Graph Report](graphify-out/GRAPH_REPORT.md), which summarizes the graph and highlights architectural hubs. For visual exploration, open these generated files locally in a browser:
@@ -20,6 +31,37 @@ Refresh the artifacts after code changes:
 graphify update .
 ```
 
+## Recommended Graphify v8 workflow
+
+The generated graph is committed to this repository, so every clone starts with a
+shared architecture map. Set up Graphify once per clone, then let its Git hooks
+handle commits and branch changes:
+
+```bash
+# Install the Graphify skill in this repository for Codex.
+graphify install --project --platform codex
+
+# Rebuild after commits and branch switches.
+graphify hook install
+```
+
+Run `graphify update .` after `git pull`, merges, or whenever a query appears
+stale. The hooks update the graph for commits and branch switches, but not for
+incoming changes from a pull. If a refactor removes many files, use the forced
+refresh so Graphify can replace a smaller graph:
+
+```bash
+graphify update . --force
+```
+
+For GitHub pull-request work, Graphify can also show the graph impact alongside
+CI and review state:
+
+```bash
+graphify prs
+graphify prs --conflicts
+```
+
 Then use Graphify to investigate the project, for example:
 
 ```bash
@@ -33,9 +75,12 @@ These are reference commands only. Run them from a project directory where appro
 
 | Command | Description |
 | --- | --- |
+| `uv tool install graphifyy` | Installs the official Graphify package (the package name has two `y` characters). |
+| `graphify install --project --platform codex` | Installs the Codex skill in this repository; use this for a shared project setup. |
 | `graphify install --platform codex` | Installs Graphify's Codex integration for the current user. |
 | `graphify codex install` | Adds Graphify instructions to the current project's `AGENTS.md` for Codex. |
 | `graphify update .` | Scans the project and generates or refreshes graph JSON and HTML outputs. |
+| `graphify update . --force` | Replaces the graph even when the updated codebase has fewer nodes, such as after a large deletion. |
 | `graphify extract .` | Runs full semantic extraction, including LLM-assisted relationships when configured. |
 | `graphify cluster-only .` | Re-clusters an existing graph and regenerates reports and visuals without re-extracting code. |
 | `graphify export html --graph graphify-out/graph.json` | Produces an interactive HTML visualization from an existing graph. |
@@ -63,12 +108,15 @@ These are reference commands only. Run them from a project directory where appro
 | `graphify global list` | Lists graphs registered in the global graph. |
 | `graphify diagnose multigraph` | Detects possible lost edges caused by same-endpoint edge collapsing. |
 | `graphify benchmark graphify-out/graph.json` | Measures graph-query context reduction versus reading the whole codebase. |
+| `graphify prs` | Shows GitHub pull requests with their CI, review, worktree, and graph-impact context. |
+| `graphify prs --conflicts` | Finds pull requests that touch overlapping graph communities and may have merge-order risk. |
 
 ## Typical Codex workflow
 
 ```bash
-graphify codex install
+graphify install --project --platform codex
+graphify hook install
 graphify update .
 graphify query "your question"
-graphify affected "changed/file.py"
+graphify affected "src/main/java/com/orders/OrderService.java"
 ```

@@ -1,53 +1,50 @@
 # Order
 
-> 24 nodes
+> 22 nodes
 
 ## Key Concepts
 
-- **Order** (18 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **OrderStatus** (12 connections) — `src/main/java/com/acme/graphifyorders/OrderStatus.java`
-- **.toResponse()** (12 connections) — `src/main/java/com/acme/graphifyorders/OrderMapper.java`
-- **.toAdminSummary()** (10 connections) — `src/main/java/com/acme/graphifyorders/OrderMapper.java`
-- **.create()** (6 connections) — `src/main/java/com/acme/graphifyorders/OrderService.java`
-- **AdminOrderSummary** (4 connections) — `src/main/java/com/acme/graphifyorders/AdminOrderSummary.java`
-- **CreateOrderRequest** (4 connections) — `src/main/java/com/acme/graphifyorders/CreateOrderRequest.java`
-- **.getStatus()** (4 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.getCreatedAt()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.getCustomerName()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.getId()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.getProductName()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.getQuantity()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.update()** (3 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **.Order()** (2 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
+- **Order** (19 connections) — `src/main/java/com/orders/Order.java`
+- **OrderStatus** (14 connections) — `src/main/java/com/orders/OrderStatus.java`
+- **.toResponse()** (13 connections) — `src/main/java/com/orders/OrderMapper.java`
+- **.toAdminSummary()** (10 connections) — `src/main/java/com/orders/OrderMapper.java`
+- **.getStatus()** (5 connections) — `src/main/java/com/orders/Order.java`
+- **AdminOrderSummary** (4 connections) — `src/main/java/com/orders/AdminOrderSummary.java`
+- **.getCreatedAt()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.getCustomerName()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.getId()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.getProductName()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.getQuantity()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.update()** (3 connections) — `src/main/java/com/orders/Order.java`
+- **.Order()** (2 connections) — `src/main/java/com/orders/Order.java`
 - **Entity** (1 connections)
-- **AdminOrderSummary.java** (1 connections) — `src/main/java/com/acme/graphifyorders/AdminOrderSummary.java`
-- **CreateOrderRequest.java** (1 connections) — `src/main/java/com/acme/graphifyorders/CreateOrderRequest.java`
-- **Order.java** (1 connections) — `src/main/java/com/acme/graphifyorders/Order.java`
-- **OrderStatus.java** (1 connections) — `src/main/java/com/acme/graphifyorders/OrderStatus.java`
-- **PENDING** (1 connections) — `src/main/java/com/acme/graphifyorders/OrderStatus.java`
-- **PROCESSING** (1 connections) — `src/main/java/com/acme/graphifyorders/OrderStatus.java`
-- **SHIPPED** (1 connections) — `src/main/java/com/acme/graphifyorders/OrderStatus.java`
+- **AdminOrderSummary.java** (1 connections) — `src/main/java/com/orders/AdminOrderSummary.java`
+- **Order.java** (1 connections) — `src/main/java/com/orders/Order.java`
+- **OrderStatus.java** (1 connections) — `src/main/java/com/orders/OrderStatus.java`
+- **CANCELLED** (1 connections) — `src/main/java/com/orders/OrderStatus.java`
+- **PENDING** (1 connections) — `src/main/java/com/orders/OrderStatus.java`
+- **PROCESSING** (1 connections) — `src/main/java/com/orders/OrderStatus.java`
+- **SHIPPED** (1 connections) — `src/main/java/com/orders/OrderStatus.java`
 - **Table** (1 connections)
 
 ## Relationships
 
-- [OrderService](OrderService.md) (11 shared connections)
+- [OrderService](OrderService.md) (13 shared connections)
 - [OrderExportService](OrderExportService.md) (4 shared connections)
 - [OrderRepository](OrderRepository.md) (2 shared connections)
+- [.error](error.md) (1 shared connections)
 
 ## Source Files
 
-- `src/main/java/com/acme/graphifyorders/AdminOrderSummary.java`
-- `src/main/java/com/acme/graphifyorders/CreateOrderRequest.java`
-- `src/main/java/com/acme/graphifyorders/Order.java`
-- `src/main/java/com/acme/graphifyorders/OrderMapper.java`
-- `src/main/java/com/acme/graphifyorders/OrderService.java`
-- `src/main/java/com/acme/graphifyorders/OrderStatus.java`
+- `src/main/java/com/orders/AdminOrderSummary.java`
+- `src/main/java/com/orders/Order.java`
+- `src/main/java/com/orders/OrderMapper.java`
+- `src/main/java/com/orders/OrderStatus.java`
 
 ## Audit Trail
 
-- EXTRACTED: 40 (69%)
-- INFERRED: 18 (31%)
+- EXTRACTED: 38 (67%)
+- INFERRED: 19 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

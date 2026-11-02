@@ -14,6 +14,11 @@ public class GlobalExceptionHandler {
     return error(HttpStatus.NOT_FOUND, exception.getMessage(), Map.of());
   }
 
+  @ExceptionHandler(OrderCancellationNotAllowedException.class)
+  ResponseEntity<ApiError> cancellationNotAllowed(OrderCancellationNotAllowedException exception) {
+    return error(HttpStatus.CONFLICT, exception.getMessage(), Map.of());
+  }
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   ResponseEntity<ApiError> invalid(MethodArgumentNotValidException exception) {
     Map<String, String> errors = new LinkedHashMap<>();

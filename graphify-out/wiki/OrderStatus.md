@@ -1,6 +1,6 @@
 # OrderStatus
 
-> God node · 12 connections · `src/main/java/com/acme/graphifyorders/OrderStatus.java`
+> God node · 14 connections · `src/main/java/com/orders/OrderStatus.java`
 
 **Community:** [Order](Order.md)
 
@@ -10,6 +10,7 @@
 - PENDING `EXTRACTED`
 - PROCESSING `EXTRACTED`
 - SHIPPED `EXTRACTED`
+- CANCELLED `EXTRACTED`
 
 ### contains
 - OrderStatus.java `EXTRACTED`
@@ -17,12 +18,13 @@
 ### references
 - [Order](Order.md) `EXTRACTED`
 - [OrderResponse](OrderResponse.md) `EXTRACTED`
+- .getStatus() `EXTRACTED`
 - AdminOrderSummary `EXTRACTED`
 - CreateOrderRequest `EXTRACTED`
 - UpdateOrderRequest `EXTRACTED`
-- .getStatus() `EXTRACTED`
 - .update() `EXTRACTED`
 - .Order() `EXTRACTED`
+- .OrderCancellationNotAllowedException() `EXTRACTED`
 
 ---
 
