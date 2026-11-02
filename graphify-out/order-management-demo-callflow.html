@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>order-management-demo — Complete Call Flow &amp; Architecture Documentation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+  --warn: #fbbf24; --err: #f87171; --ok: #34d399;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 1.7rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.25rem; margin: 32px 0 12px; color: var(--accent); }
+h4 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--warn); }
+p { margin: 8px 0; color: var(--muted); }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 32px; }
+.mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; position: relative; }
+.mermaid.is-enhanced { padding: 0; overflow: hidden; min-height: 260px; }
+.mermaid-viewport { padding: 54px 24px 24px; overflow: hidden; cursor: grab; touch-action: none; min-height: 260px; }
+.mermaid-viewport.is-dragging { cursor: grabbing; }
+.mermaid-viewport svg { max-width: none !important; height: auto; transform-origin: 0 0; transition: transform 120ms ease; }
+.mermaid-toolbar { position: absolute; top: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 6px; background: rgba(15,23,42,0.92); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.mermaid-toolbar button, .mermaid-toolbar .zoom-level { height: 28px; min-width: 32px; border: 1px solid var(--border); border-radius: 6px; background: #1e293b; color: var(--text); font: 600 0.78rem system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; }
+.mermaid-toolbar button { cursor: pointer; }
+.mermaid-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+.mermaid-toolbar .zoom-level { min-width: 52px; color: var(--muted); background: transparent; }
+.call-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+.call-table th { background: #1a2744; color: var(--accent); text-align: left; padding: 10px 14px; border: 1px solid var(--border); }
+.call-table td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
+.call-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.tag-async { background: #7c3aed33; color: #a78bfa; }
+.tag-class { background: #05966933; color: var(--ok); }
+.tag-func { background: #2563eb33; color: var(--accent); }
+.tag-cmd { background: #d9770633; color: var(--warn); }
+.tag-endpoint { background: #dc262633; color: var(--err); }
+.tag-hook { background: #db277733; color: #f472b6; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.arrow-chain { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); padding: 10px; background: rgba(56,189,248,0.06); border-radius: 6px; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+ul, ol { margin: 8px 0 8px 24px; color: var(--muted); }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.nav { position: sticky; top: 0; background: var(--bg); z-index: 10; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .container { padding: 16px; } h1 { font-size: 1.8rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>order-management-demo — Complete Call Flow &amp; Architecture Documentation</h1>
+<p class="subtitle">Generated from graphify knowledge graph: 139 nodes, 238 edges, 12 communities. Commit: 7140943</p>
+
+<div class="nav">
+    <a href="#overview">Architecture Overview</a>
+    <a href="#extract-pipeline">Extraction Pipeline</a>
+    <a href="#cli-skills">CLI &amp; Skill Installers</a>
+    <a href="#mvnw">mvnw</a>
+    <a href="#verify-sh">verify.sh</a>
+    <a href="#demo-requests-sh">demo-requests.sh</a>
+    <a href="#com-acme-order-management-demo">com.acme:order-management-demo</a>
+</div>
+
+<!-- ====== Architecture Overview ====== -->
+<h2 id="overview">1. Architecture Overview</h2>
+
+<div class="mermaid">
+
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    EXTRACT_PIPELINE_5F350230("Extraction Pipeline<br/><small>122 nodes</small>")
+    class EXTRACT_PIPELINE_5F350230 module;
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>5 nodes</small>")
+    class CLI_SKILLS_9964CBB8 module;
+    MVNW_5D837C4E("mvnw<br/><small>6 nodes</small>")
+    class MVNW_5D837C4E module;
+    VERIFY_SH_5D90FFCF("verify.sh<br/><small>3 nodes</small>")
+    class VERIFY_SH_5D90FFCF module;
+    DEMO_REQUESTS_SH_8C0E05A5("demo-requests.sh<br/><small>2 nodes</small>")
+    class DEMO_REQUESTS_SH_8C0E05A5 module;
+    COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4("com.acme:order-management-demo<br/><small>1 nodes</small>")
+    class COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4 module;
+    EXTRACT_PIPELINE_5F350230 -.-> CLI_SKILLS_9964CBB8
+    CLI_SKILLS_9964CBB8 -.-> MVNW_5D837C4E
+    MVNW_5D837C4E -.-> VERIFY_SH_5D90FFCF
+    VERIFY_SH_5D90FFCF -.-> DEMO_REQUESTS_SH_8C0E05A5
+    DEMO_REQUESTS_SH_8C0E05A5 -.-> COM_ACME_ORDER_MANAGEMENT_DEMO_7E7A7EF4
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h4>Architecture Layers</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
+      <tr><td>Extraction Pipeline</td><td>122</td><td><code>1, 0, 2, 3, 4, 5, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>5</td><td><code>11</code></td></tr><tr><td>mvnw</td><td>6</td><td><code>7</code></td></tr><tr><td>verify.sh</td><td>3</td><td><code>8</code></td></tr><tr><td>demo-requests.sh</td><td>2</td><td><code>9</code></td></tr><tr><td>com.acme:order-management-demo</td><td>1</td><td><code>10</code></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Core Flow</h4>
+    <div class="arrow-chain">Extraction Pipeline -&gt; CLI &amp; Skill Installers -&gt; mvnw -&gt; verify.sh -&gt; demo-requests.sh -&gt; com.acme:order-management-demo</div>
+  </div>
+</div>
+<div class="grid">
+  <div class="card">
+    <h4>Graph Report Highlights</h4>
+    <ul>
+      <li>139 nodes · 238 edges · 12 communities (9 shown, 3 thin omitted)</li>
+      <li>Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 27 edges (avg confidence: 0.8)</li>
+      <li>Token cost: 0 input · 0 output</li>
+      <li>1. `Order` - 18 edges</li>
+      <li>2. `OrderService` - 18 edges</li>
+      <li>3. `OrderExportService` - 12 edges</li>
+    </ul>
+  </div>
+</div>
+<hr>
+<!-- ====== 2. Extraction Pipeline ====== -->
+<h2 id="extract-pipeline">2. Extraction Pipeline</h2>
+<p>Extraction Pipeline groups implementation around com, orders, orderjava, orderservicejava, mostly in com/orders/Order.java, com/orders/OrderService.java, com/orders/OrderController.java. This section covers 122 nodes and 222 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Extraction Pipeline (122 nodes, 222 edges)
+    subgraph extract_pipeline_com_orders_OrderExportService_j_548bdc2a["com/orders/OrderExportService.java"]
+        src_main_java_com_orders_orderexportservice_orde_9c6952f5("OrderExportService<br/><small>com/orders/OrderExportService.java</small>")
+        src_main_java_com_orders_orderexportservice_orde_64c2104d("OrderExportService()<br/><small>com/orders/OrderExportService.java</small>")
+        src_main_java_com_orders_orderexportservice_orde_b824e4e2("exportCsv()<br/><small>com/orders/OrderExportService.java</small>")
+        src_main_java_com_orders_orderexportservice_orde_36f199b3("writeExport()<br/><small>com/orders/OrderExportService.java</small>")
+        src_main_java_com_orders_orderexportservice_orde_88b73e03("escape()<br/><small>com/orders/OrderExportService.java</small>")
+    end
+    subgraph extract_pipeline_com_orders_AdminOrderController_438b1eea["com/orders/AdminOrderController.java"]
+        src_main_java_com_orders_adminordercontroller_ad_7cd5c807("AdminOrderController<br/><small>com/orders/AdminOrderController.java</small>")
+        src_main_java_com_orders_adminordercontroller_ad_a4fdf967("AdminOrderController()<br/><small>com/orders/AdminOrderController.java</small>")
+        src_main_java_com_orders_adminordercontroller_ad_bd849940("summary()<br/><small>com/orders/AdminOrderController.java</small>")
+        src_main_java_com_orders_adminordercontroller_ad_7b37b55e("export()<br/><small>com/orders/AdminOrderController.java</small>")
+    end
+    subgraph extract_pipeline_com_orders_OrderExportJob_java_66807f6e["com/orders/OrderExportJob.java"]
+        src_main_java_com_orders_orderexportjob_108c4324("OrderExportJob.java")
+        src_main_java_com_orders_orderexportjob_orderexp_b41a958c("OrderExportJob<br/><small>com/orders/OrderExportJob.java</small>")
+        src_main_java_com_orders_orderexportjob_orderexp_b1937e9e("OrderExportJob()<br/><small>com/orders/OrderExportJob.java</small>")
+        src_main_java_com_orders_orderexportjob_orderexp_79f17a78("exportOrders()<br/><small>com/orders/OrderExportJob.java</small>")
+    end
+    src_main_java_com_orders_order_order_796279ac("Order<br/><small>com/orders/Order.java</small>")
+    src_main_java_com_orders_ordercontroller_orderco_e91adcab("OrderController<br/><small>com/orders/OrderController.java</small>")
+    src_main_java_com_orders_ordermanagementapplicat_c7a00d64("OrderManagementApplication.java")
+    src_main_java_com_orders_ordermapper_ordermapper_47e849a8("OrderMapper<br/><small>com/orders/OrderMapper.java</small>")
+    src_main_java_com_orders_orderservice_orderservi_058e147e("OrderService<br/><small>com/orders/OrderService.java</small>")
+    src_main_java_com_orders_adminordercontroller_ad_7cd5c807 -->|method| src_main_java_com_orders_adminordercontroller_ad_a4fdf967
+    src_main_java_com_orders_adminordercontroller_ad_7cd5c807 -->|method| src_main_java_com_orders_adminordercontroller_ad_bd849940
+    src_main_java_com_orders_adminordercontroller_ad_7cd5c807 -->|method| src_main_java_com_orders_adminordercontroller_ad_7b37b55e
+    src_main_java_com_orders_orderexportjob_orderexp_b41a958c -->|method| src_main_java_com_orders_orderexportjob_orderexp_b1937e9e
+    src_main_java_com_orders_orderexportjob_orderexp_b41a958c -->|method| src_main_java_com_orders_orderexportjob_orderexp_79f17a78
+    src_main_java_com_orders_orderexportservice_orde_9c6952f5 -->|method| src_main_java_com_orders_orderexportservice_orde_64c2104d
+    src_main_java_com_orders_orderexportservice_orde_9c6952f5 -->|method| src_main_java_com_orders_orderexportservice_orde_b824e4e2
+    src_main_java_com_orders_orderexportservice_orde_9c6952f5 -->|method| src_main_java_com_orders_orderexportservice_orde_36f199b3
+    src_main_java_com_orders_orderexportservice_orde_9c6952f5 -->|method| src_main_java_com_orders_orderexportservice_orde_88b73e03
+    src_main_java_com_orders_orderexportservice_orde_b824e4e2 -->|calls| src_main_java_com_orders_orderexportservice_orde_88b73e03
+    src_main_java_com_orders_orderexportservice_orde_36f199b3 -->|calls| src_main_java_com_orders_orderexportservice_orde_b824e4e2
+    %% Omitted for readability: 104 nodes, 0 edges
+    class src_main_java_com_orders_orderexportservice_orde_9c6952f5 klass;
+    class src_main_java_com_orders_orderexportservice_orde_64c2104d function;
+    class src_main_java_com_orders_orderexportservice_orde_b824e4e2 function;
+    class src_main_java_com_orders_orderexportservice_orde_36f199b3 function;
+    class src_main_java_com_orders_orderexportservice_orde_88b73e03 function;
+    class src_main_java_com_orders_adminordercontroller_ad_7cd5c807 klass;
+    class src_main_java_com_orders_adminordercontroller_ad_a4fdf967 function;
+    class src_main_java_com_orders_adminordercontroller_ad_bd849940 function;
+    class src_main_java_com_orders_adminordercontroller_ad_7b37b55e function;
+    class src_main_java_com_orders_orderexportjob_108c4324 klass;
+    class src_main_java_com_orders_orderexportjob_orderexp_b41a958c klass;
+    class src_main_java_com_orders_orderexportjob_orderexp_b1937e9e function;
+    class src_main_java_com_orders_orderexportjob_orderexp_79f17a78 function;
+    class src_main_java_com_orders_order_order_796279ac klass;
+    class src_main_java_com_orders_ordercontroller_orderco_e91adcab klass;
+    class src_main_java_com_orders_ordermanagementapplicat_c7a00d64 klass;
+    class src_main_java_com_orders_ordermapper_ordermapper_47e849a8 klass;
+    class src_main_java_com_orders_orderservice_orderservi_058e147e klass;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>CreateOrderRequest</code><br><small style="color:var(--muted)">com/orders/CreateOrderRequest.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateOrderRequest node in com/orders/CreateOrderRequest.java.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br>+3 more</td>
+  <td>OrderController node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>OrderResponse</code><br><small style="color:var(--muted)">com/orders/OrderResponse.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>toResponse()</code><br><small style="color:var(--muted)">com/orders/OrderMapper.java</small></td>
+  <td>No direct outbound edge</td>
+  <td>OrderResponse node in com/orders/OrderResponse.java.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+4 more</td>
+  <td>OrderService node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>UpdateOrderRequest</code><br><small style="color:var(--muted)">com/orders/UpdateOrderRequest.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UpdateOrderRequest node in com/orders/UpdateOrderRequest.java.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>.create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.create() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>.delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.delete() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>.get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.get() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>.list()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>list()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.list() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>.OrderController()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td>No direct outbound edge</td>
+  <td>.OrderController() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>.update()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>update()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.update() node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>.create()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><code>Order</code><br><small style="color:var(--muted)">com/orders/Order.java</small><br><code>toResponse()</code><br><small style="color:var(--muted)">com/orders/OrderMapper.java</small></td>
+  <td>.create() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>.delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>.delete() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>.findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>delete()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br>+2 more</td>
+  <td>No direct outbound edge</td>
+  <td>.findEntity() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>.get()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>get()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>toResponse()</code><br><small style="color:var(--muted)">com/orders/OrderMapper.java</small></td>
+  <td>.get() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>.list()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>exportCsv()</code><br><small style="color:var(--muted)">com/orders/OrderExportService.java</small><br><code>list()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small><br><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><code>findAllByOrderByIdAsc()</code><br><small style="color:var(--muted)">com/orders/OrderRepository.java</small></td>
+  <td>.list() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>.update()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderService</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>update()</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><code>findEntity()</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small><br><code>toResponse()</code><br><small style="color:var(--muted)">com/orders/OrderMapper.java</small><br><code>update()</code><br><small style="color:var(--muted)">com/orders/Order.java</small></td>
+  <td>.update() node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>DeleteMapping</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>DeleteMapping node in project.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>org.springframework.http.ResponseEntity</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderController.java</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td>No direct outbound edge</td>
+  <td>org.springframework.http.ResponseEntity node in project.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>org.springframework.transaction.annotation.Transactional</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>OrderService.java</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td>No direct outbound edge</td>
+  <td>org.springframework.transaction.annotation.Transactional node in project.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>PostMapping</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PostMapping node in project.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>PutMapping</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PutMapping node in project.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>CreateOrderRequest.java</code><br><small style="color:var(--muted)">com/orders/CreateOrderRequest.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateOrderRequest.java node in com/orders/CreateOrderRequest.java.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>OrderController.java</code><br><small style="color:var(--muted)">com/orders/OrderController.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>org.springframework.http.ResponseEntity</code></td>
+  <td>OrderController.java node in com/orders/OrderController.java.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>GetMapping</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>GetMapping node in project.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>RequestMapping</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>RequestMapping node in project.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>RestController</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>RestController node in project.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>OrderResponse.java</code><br><small style="color:var(--muted)">com/orders/OrderResponse.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>OrderResponse.java node in com/orders/OrderResponse.java.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>OrderService.java</code><br><small style="color:var(--muted)">com/orders/OrderService.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>org.springframework.stereotype.Service</code><br><code>org.springframework.transaction.annotat...</code></td>
+  <td>OrderService.java node in com/orders/OrderService.java.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>UpdateOrderRequest.java</code><br><small style="color:var(--muted)">com/orders/UpdateOrderRequest.java</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UpdateOrderRequest.java node in com/orders/UpdateOrderRequest.java.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>com/orders/Order.java</code></td><td>10 nodes</td></tr>
+<tr><td><code>com/orders/OrderService.java</code></td><td>9 nodes</td></tr>
+<tr><td><code>com/orders/OrderController.java</code></td><td>8 nodes</td></tr>
+<tr><td><code>com/orders/OrderExportService.java</code></td><td>6 nodes</td></tr>
+<tr><td><code>com/orders/AdminOrderController.java</code></td><td>5 nodes</td></tr>
+<tr><td><code>com/orders/GlobalExceptionHandler.java</code></td><td>5 nodes</td></tr>
+<tr><td><code>com/orders/OrderStatus.java</code></td><td>5 nodes</td></tr>
+<tr><td><code>com/orders/OrderExportJob.java</code></td><td>4 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: references x97, method x42, imports x21, contains x20. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. CLI & Skill Installers ====== -->
+<h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
+<p>CLI &amp; Skill Installers groups implementation around readmemd, graphify, explore, graph, mostly in README.md. This section covers 5 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: CLI &amp; Skill Installers (5 nodes, 4 edges)
+    readme_order_management_demo_graphify_map_bd77aa44("Order Management Demo — Graphify map<br/><small>README.md</small>")
+    readme_f78a71af("README.md")
+    readme_graphify_command_reference_1078a1ac("Graphify command reference<br/><small>README.md</small>")
+    readme_explore_the_graph_b947f87a("Explore the graph<br/><small>README.md</small>")
+    readme_typical_codex_workflow_88781d8b("Typical Codex workflow<br/><small>README.md</small>")
+    readme_f78a71af -->|contains| readme_order_management_demo_graphify_map_bd77aa44
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_graphify_command_reference_1078a1ac
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_explore_the_graph_b947f87a
+    readme_order_management_demo_graphify_map_bd77aa44 -->|contains| readme_typical_codex_workflow_88781d8b
+    class readme_order_management_demo_graphify_map_bd77aa44 concept;
+    class readme_f78a71af concept;
+    class readme_graphify_command_reference_1078a1ac concept;
+    class readme_explore_the_graph_b947f87a concept;
+    class readme_typical_codex_workflow_88781d8b concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>README.md</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing README.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>Explore the graph</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Explore the graph.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Graphify command reference</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Graphify command reference.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>Order Management Demo — Graphify map</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Order Management Demo — Graphify map.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Typical Codex workflow</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Typical Codex workflow.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>README.md</code></td><td>5 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. mvnw ====== -->
+<h2 id="mvnw">4. mvnw</h2>
+<p>mvnw groups implementation around mvnw, script, concat, lines, mostly in mvnw. This section covers 6 nodes and 9 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: mvnw (6 nodes, 9 edges)
+    mvnw_entry_84ea760b("mvnw script<br/><small>mvnw</small>")
+    mvnw_find_maven_basedir_5af39670("find_maven_basedir()<br/><small>mvnw</small>")
+    mvnw_log_c829c9d3("log()<br/><small>mvnw</small>")
+    mvnw_trim_1027281a("trim()<br/><small>mvnw</small>")
+    mvnw_concat_lines_21085500("concat_lines()<br/><small>mvnw</small>")
+    mvnw_5d837c4e("mvnw")
+    mvnw_entry_84ea760b -->|calls| mvnw_find_maven_basedir_5af39670
+    mvnw_entry_84ea760b -->|calls| mvnw_log_c829c9d3
+    mvnw_entry_84ea760b -->|calls| mvnw_trim_1027281a
+    mvnw_entry_84ea760b -->|calls| mvnw_concat_lines_21085500
+    class mvnw_entry_84ea760b function;
+    class mvnw_find_maven_basedir_5af39670 function;
+    class mvnw_log_c829c9d3 function;
+    class mvnw_trim_1027281a function;
+    class mvnw_concat_lines_21085500 function;
+    class mvnw_5d837c4e function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>mvnw</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>mvnw node in mvnw.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>mvnw script</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>concat_lines()</code><br><small style="color:var(--muted)">mvnw</small><br><code>find_maven_basedir()</code><br><small style="color:var(--muted)">mvnw</small><br><code>log()</code><br><small style="color:var(--muted)">mvnw</small><br>+1 more</td>
+  <td>mvnw script node in mvnw.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>concat_lines()</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>mvnw script</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td>No direct outbound edge</td>
+  <td>concat_lines() node in mvnw.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>find_maven_basedir()</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>mvnw script</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td>No direct outbound edge</td>
+  <td>find_maven_basedir() node in mvnw.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>log()</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>mvnw script</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td>No direct outbound edge</td>
+  <td>log() node in mvnw.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>trim()</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>mvnw script</code><br><small style="color:var(--muted)">mvnw</small></td>
+  <td>No direct outbound edge</td>
+  <td>trim() node in mvnw.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>mvnw</code></td><td>6 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x4, calls x4, contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 5. verify.sh ====== -->
+<h2 id="verify-sh">5. verify.sh</h2>
+<p>verify.sh groups implementation around verifysh, scripts, cleanup, script, mostly in scripts/verify.sh. This section covers 3 nodes and 2 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: verify.sh (3 nodes, 2 edges)
+    scripts_verify_db490f73("verify.sh")
+    scripts_verify_cleanup_6644cbef("cleanup()<br/><small>scripts/verify.sh</small>")
+    scripts_verify_sh_entry_10e545ec("verify.sh script<br/><small>scripts/verify.sh</small>")
+    scripts_verify_db490f73 -->|defines| scripts_verify_cleanup_6644cbef
+    scripts_verify_db490f73 -->|contains| scripts_verify_sh_entry_10e545ec
+    class scripts_verify_db490f73 function;
+    class scripts_verify_cleanup_6644cbef function;
+    class scripts_verify_sh_entry_10e545ec function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>verify.sh</code><br><small style="color:var(--muted)">scripts/verify.sh</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>verify.sh node in scripts/verify.sh.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>cleanup()</code><br><small style="color:var(--muted)">scripts/verify.sh</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>cleanup() node in scripts/verify.sh.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>verify.sh script</code><br><small style="color:var(--muted)">scripts/verify.sh</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>verify.sh script node in scripts/verify.sh.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>scripts/verify.sh</code></td><td>3 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1, defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 6. demo-requests.sh ====== -->
+<h2 id="demo-requests-sh">6. demo-requests.sh</h2>
+<p>demo-requests.sh groups implementation around demo, requestssh, scripts, script, mostly in scripts/demo-requests.sh. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: demo-requests.sh (2 nodes, 1 edges)
+    scripts_demo_requests_dc4a50f1("demo-requests.sh")
+    scripts_demo_requests_sh_entry_9e68a38b("demo-requests.sh script<br/><small>scripts/demo-requests.sh</small>")
+    scripts_demo_requests_dc4a50f1 -->|contains| scripts_demo_requests_sh_entry_9e68a38b
+    class scripts_demo_requests_dc4a50f1 function;
+    class scripts_demo_requests_sh_entry_9e68a38b function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>demo-requests.sh</code><br><small style="color:var(--muted)">scripts/demo-requests.sh</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>demo-requests.sh node in scripts/demo-requests.sh.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>demo-requests.sh script</code><br><small style="color:var(--muted)">scripts/demo-requests.sh</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>demo-requests.sh script node in scripts/demo-requests.sh.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>scripts/demo-requests.sh</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 7. com.acme:order-management-demo ====== -->
+<h2 id="com-acme-order-management-demo">7. com.acme:order-management-demo</h2>
+<p>com.acme:order-management-demo groups implementation around comacmeorder, management, demo, pomxml, mostly in pom.xml. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: com.acme:order-management-demo (1 nodes, 0 edges)
+    pkg_com_acme_order_management_demo_408222f2("com.acme:order-management-demo<br/><small>pom.xml</small>")
+    class pkg_com_acme_order_management_demo_408222f2 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>com.acme:order-management-demo</code><br><small style="color:var(--muted)">pom.xml</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>com.acme:order-management-demo node in pom.xml.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>pom.xml</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<h2 id="stats">Project Statistics</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>Graph</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>Nodes</td><td>139</td></tr>
+      <tr><td>Edges</td><td>238</td></tr>
+      <tr><td>Hyperedges</td><td>0</td></tr>
+      <tr><td>Communities</td><td>12</td></tr>
+      <tr><td>Documented Sections</td><td>6</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Edge Confidence</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>EXTRACTED</td><td>211</td></tr>
+      <tr><td>INFERRED</td><td>27</td></tr>
+      <tr><td>AMBIGUOUS</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
+  <p>order-management-demo — Architecture Documentation</p>
+  <p>Generated: 2026-11-02 16:16 UTC · graphify callflow-html</p>
+</div>
+
+</div><!-- .container -->
+
+<script>
+(function () {
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, useMaxWidth: true },
+    themeVariables: {
+      primaryColor: '#1e293b',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#38bdf8',
+      secondaryColor: '#0f172a',
+      tertiaryColor: '#334155',
+      lineColor: '#64748b',
+      textColor: '#e2e8f0',
+    }
+  };
+
+  mermaid.initialize(mermaidConfig);
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function enhanceMermaidDiagrams() {
+    document.querySelectorAll('.mermaid').forEach((container) => {
+      if (container.dataset.zoomReady === 'true') return;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      container.dataset.zoomReady = 'true';
+      container.classList.add('is-enhanced');
+
+      const viewport = document.createElement('div');
+      viewport.className = 'mermaid-viewport';
+      svg.parentNode.insertBefore(viewport, svg);
+      viewport.appendChild(svg);
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mermaid-toolbar';
+      toolbar.innerHTML = [
+        '<button type="button" data-action="zoom-out" title="Zoom out">-</button>',
+        '<span class="zoom-level" data-role="level">100%</span>',
+        '<button type="button" data-action="zoom-in" title="Zoom in">+</button>',
+        '<button type="button" data-action="fit" title="Fit width">Fit</button>',
+        '<button type="button" data-action="reset" title="Reset view">Reset</button>'
+      ].join('');
+      container.insertBefore(toolbar, viewport);
+
+      const state = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const level = toolbar.querySelector('[data-role="level"]');
+
+      function applyTransform() {
+        svg.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        level.textContent = `${Math.round(state.scale * 100)}%`;
+      }
+
+      function zoomBy(delta) {
+        state.scale = clamp(state.scale + delta, 0.25, 3);
+        applyTransform();
+      }
+
+      function reset() {
+        state.scale = 1;
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      function fitWidth() {
+        const rawWidth = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width
+          ? svg.viewBox.baseVal.width
+          : svg.getBoundingClientRect().width / state.scale;
+        if (!rawWidth) {
+          reset();
+          return;
+        }
+        state.scale = clamp((viewport.clientWidth - 48) / rawWidth, 0.25, 1.4);
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      toolbar.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'zoom-in') zoomBy(0.15);
+        if (action === 'zoom-out') zoomBy(-0.15);
+        if (action === 'fit') fitWidth();
+        if (action === 'reset') reset();
+      });
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 0.1 : -0.1);
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) return;
+        state.dragging = true;
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.originX = state.x;
+        state.originY = state.y;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!state.dragging) return;
+        state.x = state.originX + event.clientX - state.startX;
+        state.y = state.originY + event.clientY - state.startY;
+        applyTransform();
+      });
+
+      function endDrag(event) {
+        if (!state.dragging) return;
+        state.dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      applyTransform();
+    });
+  }
+
+  function renderMermaid() {
+    const result = mermaid.run
+      ? mermaid.run({ querySelector: '.mermaid' })
+      : Promise.resolve();
+    Promise.resolve(result)
+      .then(enhanceMermaidDiagrams)
+      .catch((error) => {
+        console.error('Mermaid render failed:', error);
+        enhanceMermaidDiagrams();
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaid);
+  } else {
+    renderMermaid();
+  }
+})();
+</script>
+
+</body>
+</html>
