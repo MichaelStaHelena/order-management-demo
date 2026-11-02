@@ -80,40 +80,40 @@ graphify affected "src/main/java/com/orders/Order.java"
 
 ## Graphify command reference
 
-These are reference commands only. Run them from a project directory where appropriate.
+These are reference commands only. Run them from a project directory where appropriate. Output paths below are defaults; options such as `--output`, `--dir`, and `--out` can change them.
 
 | Command | Description |
 | --- | --- |
 | `uv tool install graphifyy` | Installs the official Graphify package (the package name has two `y` characters). |
-| `graphify install --project --platform codex` | Installs the Codex skill in this repository; use this for a shared project setup. |
+| `graphify install --project --platform codex` | Installs the Codex skill files in this repository for a shared project setup. |
 | `graphify install --platform codex` | Installs Graphify's Codex integration for the current user. |
-| `graphify codex install` | Adds Graphify instructions to the current project's `AGENTS.md` for Codex. |
+| `graphify codex install` | Creates or updates the current project's `AGENTS.md` with Graphify instructions for Codex. |
 | `graphify update .` | Scans the project and creates or refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md`. |
-| `graphify update . --force` | Replaces the graph even when the updated codebase has fewer nodes, such as after a large deletion. |
-| `graphify extract .` | Runs full semantic extraction, including LLM-assisted relationships when configured. |
-| `graphify cluster-only .` | Re-clusters an existing graph and regenerates reports and visuals without re-extracting code. |
-| `graphify export html --graph graphify-out/graph.json` | Produces an interactive HTML visualization from an existing graph. |
+| `graphify update . --force` | Refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md`, even when the rebuilt graph has fewer nodes. |
+| `graphify extract .` | Runs full semantic extraction, including LLM-assisted relationships when configured, and writes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md`. |
+| `graphify cluster-only .` | Re-clusters an existing graph and refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md` without re-extracting code. |
+| `graphify export html --graph graphify-out/graph.json` | Writes the interactive visualization to `graphify-out/graph.html`. |
 | `graphify query "question"` | Searches the graph to answer an architecture or codebase question. |
 | `graphify explain "node"` | Explains a file, symbol, or graph node and its relationships. |
 | `graphify path "A" "B"` | Finds the shortest graph path between two nodes. |
 | `graphify affected "node"` | Finds code likely impacted by changes to a file or symbol. |
 | `graphify god-nodes` | Lists the most connected nodes, useful for identifying architectural hubs. |
-| `graphify watch .` | Watches the project and rebuilds the graph after changes. |
+| `graphify watch .` | Watches the project and refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md` after changes. |
 | `graphify check-update .` | Checks whether the graph needs a refresh. |
-| `graphify tree` | Generates a collapsible HTML tree of the graph. |
-| `graphify export callflow-html` | Creates an HTML call-flow or architecture diagram. |
-| `graphify export svg` | Exports the graph as SVG. |
-| `graphify export graphml` | Exports the graph in GraphML format. |
-| `graphify export obsidian` | Creates Obsidian notes and a canvas from the graph. |
-| `graphify export wiki` | Creates Markdown wiki articles from the graph. |
-| `graphify export neo4j` | Exports Cypher or pushes the graph into Neo4j. |
-| `graphify hook install` | Installs Git hooks to keep graphs updated after commits and checkouts. |
+| `graphify tree` | Writes a collapsible HTML tree to `graphify-out/GRAPH_TREE.html`. |
+| `graphify export callflow-html` | Writes an HTML call-flow or architecture diagram to `graphify-out/<project>-callflow.html`. |
+| `graphify export svg` | Writes an SVG export to `graphify-out/graph.svg`. |
+| `graphify export graphml` | Writes a GraphML export to `graphify-out/graph.graphml`. |
+| `graphify export obsidian` | Creates an Obsidian vault in `graphify-out/obsidian/`, including Markdown notes and `graph.canvas`. |
+| `graphify export wiki` | Creates a Markdown wiki in `graphify-out/wiki/`, including `index.md` and generated articles. |
+| `graphify export neo4j` | Writes a Cypher import script to `graphify-out/cypher.txt`; with `--push`, it loads the graph into Neo4j instead. |
+| `graphify hook install` | Creates Git hooks such as `.git/hooks/post-commit` and `.git/hooks/post-checkout` to keep graphs updated. |
 | `graphify hook status` | Shows whether Graphify Git hooks are installed. |
 | `graphify hook uninstall` | Removes Graphify Git hooks. |
-| `graphify add "URL"` | Downloads a URL into the corpus and updates the graph. |
-| `graphify clone GITHUB_URL` | Clones a GitHub repository locally for analysis. |
-| `graphify merge-graphs graph-a.json graph-b.json` | Combines multiple project graphs. |
-| `graphify global add graphify-out/graph.json` | Adds this project graph to Graphify's global multi-repository graph. |
+| `graphify add "URL"` | Downloads the URL into `raw/` and refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md`. |
+| `graphify clone GITHUB_URL` | Clones a GitHub repository under `~/.graphify/repos/<owner>/<repo>` for analysis. |
+| `graphify merge-graphs graph-a.json graph-b.json` | Combines multiple project graphs into `graphify-out/merged-graph.json`. |
+| `graphify global add graphify-out/graph.json` | Adds or updates this project in the global multi-repository graph at `~/.graphify/global-graph.json`. |
 | `graphify global list` | Lists graphs registered in the global graph. |
 | `graphify diagnose multigraph` | Detects possible lost edges caused by same-endpoint edge collapsing. |
 | `graphify benchmark graphify-out/graph.json` | Measures graph-query context reduction versus reading the whole codebase. |
