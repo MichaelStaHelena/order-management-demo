@@ -88,7 +88,7 @@ These are reference commands only. Run them from a project directory where appro
 | `graphify install --project --platform codex` | Installs the Codex skill in this repository; use this for a shared project setup. |
 | `graphify install --platform codex` | Installs Graphify's Codex integration for the current user. |
 | `graphify codex install` | Adds Graphify instructions to the current project's `AGENTS.md` for Codex. |
-| `graphify update .` | Scans the project and generates or refreshes graph JSON and HTML outputs. |
+| `graphify update .` | Scans the project and creates or refreshes `graphify-out/graph.json`, `graphify-out/graph.html`, and `graphify-out/GRAPH_REPORT.md`. |
 | `graphify update . --force` | Replaces the graph even when the updated codebase has fewer nodes, such as after a large deletion. |
 | `graphify extract .` | Runs full semantic extraction, including LLM-assisted relationships when configured. |
 | `graphify cluster-only .` | Re-clusters an existing graph and regenerates reports and visuals without re-extracting code. |
