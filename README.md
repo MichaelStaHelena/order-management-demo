@@ -65,8 +65,17 @@ graphify prs --conflicts
 Then use Graphify to investigate the project, for example:
 
 ```bash
-graphify query "How does order export depend on the order service?"
-graphify affected "src/main/java/com/orders/OrderService.java"
+# Scope the code involved in an architecture or behavior question.
+graphify query "How does an order cancellation request move from the API to persistence?"
+
+# Inspect one node, including its source location and direct relationships.
+graphify explain "OrderExportService"
+
+# Trace the shortest dependency path between two mapped concepts.
+graphify path "AdminOrderController" "OrderRepository"
+
+# See which symbols are likely affected before changing the order entity.
+graphify affected "src/main/java/com/orders/Order.java"
 ```
 
 ## Graphify command reference
